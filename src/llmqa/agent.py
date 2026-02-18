@@ -62,7 +62,9 @@ class Agent(ABC):
         self.system_prompt = system_prompt
 
     @abstractmethod
-    def get_system_prompt(self, context_args: dict[str, Any] | None = None) -> Message:
+    def get_system_prompt(
+        self, context_args: dict[str, Any] | None = None
+    ) -> Message:
         """Get the system prompt as a Message.
 
         Args:
@@ -149,7 +151,9 @@ class AgentQA(Agent):
             logger.error(f"Failed to initialize LLM model: {e}")
             raise RuntimeError(f"Failed to initialize LLM model: {e}") from e
 
-    def get_system_prompt(self, context_args: dict[str, Any] | None = None) -> Message:
+    def get_system_prompt(
+        self, context_args: dict[str, Any] | None = None
+    ) -> Message:
         """Get the system prompt as a Message.
 
         Args:

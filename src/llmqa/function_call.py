@@ -75,7 +75,7 @@ def extract_function_calls(message: Message) -> list[FunctionCall]:
     Example:
         >>> msg = Message(
         ...     role=ChatRole.ASSISTANT,
-        ...     content='{"type": "function", "name": "get_weather", "parameters": {"city": "NYC"}}'
+        ...     content='{"type": "function", "name": "get_weather", "parameters": {"city": "NYC"}}',
         ... )
         >>> calls = extract_function_calls(msg)
         >>> calls[0].name

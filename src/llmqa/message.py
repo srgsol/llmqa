@@ -46,5 +46,7 @@ class Message(BaseModel):
 
     def __repr__(self) -> str:
         """Return a detailed string representation of the message."""
-        content_preview = self.content[:50] + "..." if len(self.content) > 50 else self.content
+        content_preview = (
+            self.content[:50] + "..." if len(self.content) > 50 else self.content
+        )
         return f"Message(role={self.role}, content='{content_preview}', type={self.type})"

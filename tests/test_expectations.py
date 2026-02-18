@@ -57,7 +57,10 @@ def test_is_json(content: str, should_pass: bool):
 def test_num_messages(messages_count: int, expected_num: int, should_pass: bool):
     """Test NumMessages expectation."""
     expectation = NumMessages(num=expected_num)
-    messages = [Message(role=ChatRole.ASSISTANT, content=f"msg{i}") for i in range(messages_count)]
+    messages = [
+        Message(role=ChatRole.ASSISTANT, content=f"msg{i}")
+        for i in range(messages_count)
+    ]
 
     if should_pass:
         expectation.run(messages)
@@ -80,7 +83,9 @@ def test_num_messages(messages_count: int, expected_num: int, should_pass: bool)
         ("", "Hello", True, False),
     ],
 )
-def test_text_contains(content: str, text: str, case_sensitive: bool, should_pass: bool):
+def test_text_contains(
+    content: str, text: str, case_sensitive: bool, should_pass: bool
+):
     """Test TextContains expectation."""
     expectation = TextContains(text=text, case_sensitive=case_sensitive)
     messages = [Message(role=ChatRole.ASSISTANT, content=content)]
@@ -106,7 +111,9 @@ def test_text_contains(content: str, text: str, case_sensitive: bool, should_pas
         ("", ["Hello", "World"], True, False),
     ],
 )
-def test_text_contains_all(content: str, texts: list[str], case_sensitive: bool, should_pass: bool):
+def test_text_contains_all(
+    content: str, texts: list[str], case_sensitive: bool, should_pass: bool
+):
     """Test TextContainsAll expectation."""
     expectation = TextContainsAll(text=texts, case_sensitive=case_sensitive)
     messages = [Message(role=ChatRole.ASSISTANT, content=content)]
@@ -132,7 +139,9 @@ def test_text_contains_all(content: str, texts: list[str], case_sensitive: bool,
         ("Hello Beautiful World", ["Beautiful", "Python"], True, True),
     ],
 )
-def test_text_contains_any(content: str, texts: list[str], case_sensitive: bool, should_pass: bool):
+def test_text_contains_any(
+    content: str, texts: list[str], case_sensitive: bool, should_pass: bool
+):
     """Test TextContainsAny expectation."""
     expectation = TextContainsAny(text=texts, case_sensitive=case_sensitive)
     messages = [Message(role=ChatRole.ASSISTANT, content=content)]
@@ -154,7 +163,9 @@ def test_text_contains_any(content: str, texts: list[str], case_sensitive: bool,
         ("", "", True, True),
     ],
 )
-def test_text_exact_match(content: str, text: str, case_sensitive: bool, should_pass: bool):
+def test_text_exact_match(
+    content: str, text: str, case_sensitive: bool, should_pass: bool
+):
     """Test TextExactMatch expectation."""
     expectation = TextExactMatch(text=text, case_sensitive=case_sensitive)
     messages = [Message(role=ChatRole.ASSISTANT, content=content)]
@@ -209,7 +220,9 @@ def test_text_is_empty(content: str, should_pass: bool):
         ("This is a longer sentence with many words", 1, 4, False),
     ],
 )
-def test_text_is_in_range(content: str, min_words: int, max_words: int, should_pass: bool):
+def test_text_is_in_range(
+    content: str, min_words: int, max_words: int, should_pass: bool
+):
     """Test TextIsInRange expectation."""
     expectation = TextIsInRange(min_words=min_words, max_words=max_words)
     messages = [Message(role=ChatRole.ASSISTANT, content=content)]
@@ -256,7 +269,9 @@ def test_text_is_not_empty(content: str, should_pass: bool):
         ("Hello Beautiful World", "Python", True, True),
     ],
 )
-def test_text_not_contains(content: str, text: str, case_sensitive: bool, should_pass: bool):
+def test_text_not_contains(
+    content: str, text: str, case_sensitive: bool, should_pass: bool
+):
     """Test TextNotContains expectation."""
     expectation = TextNotContains(text=text, case_sensitive=case_sensitive)
     messages = [Message(role=ChatRole.ASSISTANT, content=content)]
@@ -308,7 +323,9 @@ def test_text_not_contains_any(
         ("Hello Beautiful World", "World", True, True),
     ],
 )
-def test_text_not_startswith(content: str, text: str, case_sensitive: bool, should_pass: bool):
+def test_text_not_startswith(
+    content: str, text: str, case_sensitive: bool, should_pass: bool
+):
     """Test TextNotStartswith expectation."""
     expectation = TextNotStartsWith(text=text, case_sensitive=case_sensitive)
     messages = [Message(role=ChatRole.ASSISTANT, content=content)]
@@ -334,7 +351,9 @@ def test_text_not_startswith(content: str, text: str, case_sensitive: bool, shou
         ("Hello Beautiful World", "Hello", True, True),
     ],
 )
-def test_text_startswith(content: str, text: str, case_sensitive: bool, should_pass: bool):
+def test_text_startswith(
+    content: str, text: str, case_sensitive: bool, should_pass: bool
+):
     """Test TextStartswith expectation."""
     expectation = TextStartsWith(text=text, case_sensitive=case_sensitive)
     messages = [Message(role=ChatRole.ASSISTANT, content=content)]

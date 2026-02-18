@@ -95,16 +95,22 @@ class LLMModel:
         """Validate backoff configuration parameters."""
         errors: list[str] = []
         if self.backoff_max_retries <= 0:
-            errors.append(f"backoff_max_retries must be positive (got {self.backoff_max_retries})")
+            errors.append(
+                f"backoff_max_retries must be positive (got {self.backoff_max_retries})"
+            )
         if self.backoff_initial_delay_s < MIN_BACKOFF_INITIAL_DELAY_S:
             errors.append(
                 f"backoff_initial_delay_s must be at least {MIN_BACKOFF_INITIAL_DELAY_S} "
                 f"(got {self.backoff_initial_delay_s})"
             )
         if self.backoff_factor < 1:
-            errors.append(f"backoff_factor must be at least 1 (got {self.backoff_factor})")
+            errors.append(
+                f"backoff_factor must be at least 1 (got {self.backoff_factor})"
+            )
         if self.backoff_max_delay_s <= 0:
-            errors.append(f"backoff_max_delay_s must be positive (got {self.backoff_max_delay_s})")
+            errors.append(
+                f"backoff_max_delay_s must be positive (got {self.backoff_max_delay_s})"
+            )
 
         if errors:
             raise ValueError(f"Invalid backoff configuration: {'; '.join(errors)}")
@@ -135,10 +141,14 @@ class LLMModel:
 
         if self.enable_rate_limit_backoff:
             response = self._call_with_backoff(
-                lambda: self.provider.call_api(api_messages, system_prompt=system_prompt_str)
+                lambda: self.provider.call_api(
+                    api_messages, system_prompt=system_prompt_str
+                )
             )
         else:
-            response = self.provider.call_api(api_messages, system_prompt=system_prompt_str)
+            response = self.provider.call_api(
+                api_messages, system_prompt=system_prompt_str
+            )
 
         return [response]
 
@@ -154,21 +164,27 @@ class LLMModel:
         api_messages = []
         for msg in messages:
             if msg.role in [ChatRole.USER, ChatRole.ASSISTANT]:
-                api_messages.append({
-                    "role": msg.role.value.lower(),
-                    "content": msg.content,
-                })
+                api_messages.append(
+                    {
+                        "role": msg.role.value.lower(),
+                        "content": msg.content,
+                    }
+                )
             elif msg.role == ChatRole.SYSTEM:
-                api_messages.append({
-                    "role": "system",
-                    "content": msg.content,
-                })
+                api_messages.append(
+                    {
+                        "role": "system",
+                        "content": msg.content,
+                    }
+                )
             elif msg.role == ChatRole.FUNCTION:
                 # Function messages are typically handled as assistant messages
-                api_messages.append({
-                    "role": "assistant",
-                    "content": msg.content,
-                })
+                api_messages.append(
+                    {
+                        "role": "assistant",
+                        "content": msg.content,
+                    }
+                )
         return api_messages
 
     def _is_retryable_error(self, error: Exception) -> bool:
@@ -205,7 +221,9 @@ class LLMModel:
                     raise
                 log.warning(f"Rate limit hit, retrying in {sleep_delay}s: {exc}")
                 time.sleep(sleep_delay)
-                sleep_delay = min(self.backoff_max_delay_s, sleep_delay * self.backoff_factor)
+                sleep_delay = min(
+                    self.backoff_max_delay_s, sleep_delay * self.backoff_factor
+                )
 
         # Final attempt without catching exceptions.
         return func()

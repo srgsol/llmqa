@@ -73,7 +73,9 @@ class BaseExpectation(BaseModel, ABC):
             # Prefix all exceptions messages with the concrete Expectation class name.
             class_name = self.__class__.__name__
             original_msg = str(e) if e.args else ""
-            prefixed_msg = f"({class_name}) {original_msg}" if original_msg else class_name
+            prefixed_msg = (
+                f"({class_name}) {original_msg}" if original_msg else class_name
+            )
             # Modify the exception message in place
             if e.args:
                 e.args = (prefixed_msg,) + e.args[1:]
@@ -112,7 +114,9 @@ class IsJson(BaseExpectation):
         try:
             json.loads(content)
         except (json.JSONDecodeError, TypeError) as e:
-            raise AssertionError(f"Message {self.msg_id} is not valid JSON: {e}") from e
+            raise AssertionError(
+                f"Message {self.msg_id} is not valid JSON: {e}"
+            ) from e
 
 
 class NumMessages(BaseExpectation):
@@ -167,7 +171,9 @@ class TextContainsAll(BaseExpectation):
             search_texts = [t.lower() for t in self.text]
 
         missing = [
-            t for t, st in zip(self.text, search_texts, strict=False) if st not in actual_output
+            t
+            for t, st in zip(self.text, search_texts, strict=False)
+            if st not in actual_output
         ]
         assertion = len(missing) == 0
         err_msg = (
@@ -392,7 +398,9 @@ class ToolCallRequest(BaseExpectation):
 
         # Check correctness of expectation definition
         if self.tool_parameters is not None and self.tool_name is None:
-            raise ValueError("Tool name is required when tool parameters are provided")
+            raise ValueError(
+                "Tool name is required when tool parameters are provided"
+            )
 
         # If no tool name is specified, just check that it's a function request
         if self.tool_name is None:

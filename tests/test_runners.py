@@ -54,7 +54,9 @@ class MockAgent(Agent):
         self.call_count = 0
         self.received_messages: list[list[Message]] = []
 
-    def get_system_prompt(self, context_args: dict[str, Any] | None = None) -> Message:
+    def get_system_prompt(
+        self, context_args: dict[str, Any] | None = None
+    ) -> Message:
         """Return a test system prompt."""
         _ = context_args  # linter requirement
         return Message(role=ChatRole.SYSTEM, content=self.system_prompt)
@@ -78,7 +80,9 @@ class TestInteraction:
     def test_interaction_with_string_input(self):
         """Test Interaction creation with string input."""
         expectations = [MockPassingExpectation()]
-        interaction = Interaction(input="Hello, how are you?", expectations=expectations)
+        interaction = Interaction(
+            input="Hello, how are you?", expectations=expectations
+        )
         assert interaction.input == "Hello, how are you?"
         assert len(interaction.expectations) == 1
 
@@ -305,7 +309,9 @@ class TestAssertInteractions:
 
     def test_assert_interactions_single_interaction(self):
         """Test assert_interactions with a single interaction."""
-        agent = MockAgent(responses=[[Message(role=ChatRole.ASSISTANT, content="Hello world")]])
+        agent = MockAgent(
+            responses=[[Message(role=ChatRole.ASSISTANT, content="Hello world")]]
+        )
         interactions = [
             Interaction(
                 input="Hello",
@@ -349,7 +355,9 @@ class TestAssertInteractions:
 
     def test_assert_interactions_fails_on_expectation(self):
         """Test assert_interactions when an expectation fails."""
-        agent = MockAgent(responses=[[Message(role=ChatRole.ASSISTANT, content="Wrong response")]])
+        agent = MockAgent(
+            responses=[[Message(role=ChatRole.ASSISTANT, content="Wrong response")]]
+        )
         interactions = [
             Interaction(
                 input="Hello",
@@ -362,7 +370,9 @@ class TestAssertInteractions:
     def test_assert_interactions_log_response(self, caplog):
         """Test assert_interactions with log_response enabled."""
         logging.getLogger("llmqa.runners").setLevel(logging.INFO)
-        agent = MockAgent(responses=[[Message(role=ChatRole.ASSISTANT, content="Hello world")]])
+        agent = MockAgent(
+            responses=[[Message(role=ChatRole.ASSISTANT, content="Hello world")]]
+        )
         interactions = [
             Interaction(
                 input="Hello",
@@ -383,7 +393,9 @@ class TestAbstractConversationalRunner:
 
     def test_abstract_runner_via_subclass(self):
         """Test AbstractConversationalRunner functionality via concrete subclass."""
-        agent = MockAgent(responses=[[Message(role=ChatRole.ASSISTANT, content="Hello world")]])
+        agent = MockAgent(
+            responses=[[Message(role=ChatRole.ASSISTANT, content="Hello world")]]
+        )
         runner = ConversationalAgentRunner(agent)
         # Test that it has the expected attributes
         assert runner.agent == agent
@@ -402,7 +414,9 @@ class TestConversationalRunner:
 
     def test_conversational_runner_single_interaction(self):
         """Test ConversationalRunner with a single interaction."""
-        agent = MockAgent(responses=[[Message(role=ChatRole.ASSISTANT, content="Hello world")]])
+        agent = MockAgent(
+            responses=[[Message(role=ChatRole.ASSISTANT, content="Hello world")]]
+        )
         runner = ConversationalAgentRunner(agent)
         interactions = [
             Interaction(
@@ -438,9 +452,15 @@ class TestConversationalRunner:
         runner.assert_interactions(interactions)
         # Check conversation history has all messages
         assert len(runner.conversation_history) == 4  # noqa: PLR2004
-        assert runner.conversation_history[0].content == "What is the capital of France?"
+        assert (
+            runner.conversation_history[0].content
+            == "What is the capital of France?"
+        )
         assert runner.conversation_history[1].content == "Paris"
-        assert runner.conversation_history[2].content == "What is its best known monument?"
+        assert (
+            runner.conversation_history[2].content
+            == "What is its best known monument?"
+        )
         assert runner.conversation_history[3].content == "Eiffel Tower"
 
     def test_conversational_runner_conversation_history_persists(self):
@@ -506,7 +526,9 @@ class TestConversationalRunner:
 
     def test_conversational_runner_fails_on_expectation(self):
         """Test ConversationalRunner when an expectation fails."""
-        agent = MockAgent(responses=[[Message(role=ChatRole.ASSISTANT, content="Wrong response")]])
+        agent = MockAgent(
+            responses=[[Message(role=ChatRole.ASSISTANT, content="Wrong response")]]
+        )
         runner = ConversationalAgentRunner(agent)
         interactions = [
             Interaction(
@@ -520,7 +542,9 @@ class TestConversationalRunner:
     def test_conversational_runner_log_conversation(self, caplog):
         """Test ConversationalRunner with log_conversation enabled."""
         logging.getLogger("llmqa.runners").setLevel(logging.INFO)
-        agent = MockAgent(responses=[[Message(role=ChatRole.ASSISTANT, content="Hello world")]])
+        agent = MockAgent(
+            responses=[[Message(role=ChatRole.ASSISTANT, content="Hello world")]]
+        )
         runner = ConversationalAgentRunner(agent)
         interactions = [
             Interaction(
@@ -534,7 +558,9 @@ class TestConversationalRunner:
     def test_conversational_runner_log_conversation_on_error(self, caplog):
         """Test ConversationalRunner logs conversation on error."""
         logging.getLogger("llmqa.runners").setLevel(logging.ERROR)
-        agent = MockAgent(responses=[[Message(role=ChatRole.ASSISTANT, content="Wrong response")]])
+        agent = MockAgent(
+            responses=[[Message(role=ChatRole.ASSISTANT, content="Wrong response")]]
+        )
         runner = ConversationalAgentRunner(agent)
         interactions = [
             Interaction(
@@ -574,7 +600,9 @@ class TestConversationalRunner:
 
     def test_conversational_runner_with_message_input(self):
         """Test ConversationalRunner with Message input."""
-        agent = MockAgent(responses=[[Message(role=ChatRole.ASSISTANT, content="Response")]])
+        agent = MockAgent(
+            responses=[[Message(role=ChatRole.ASSISTANT, content="Response")]]
+        )
         runner = ConversationalAgentRunner(agent)
         message = Message(role=ChatRole.USER, content="Custom message")
         interactions = [
@@ -588,7 +616,9 @@ class TestConversationalRunner:
 
     def test_conversational_runner_with_list_of_messages(self):
         """Test ConversationalRunner with list of messages as input."""
-        agent = MockAgent(responses=[[Message(role=ChatRole.ASSISTANT, content="Response")]])
+        agent = MockAgent(
+            responses=[[Message(role=ChatRole.ASSISTANT, content="Response")]]
+        )
         runner = ConversationalAgentRunner(agent)
         messages = [
             Message(role=ChatRole.USER, content="Message 1"),
